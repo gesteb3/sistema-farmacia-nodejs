@@ -7,6 +7,7 @@ import { openApiDocument } from './config/openapi.js';
 import { healthRouter } from './modules/health/health.routes.js';
 import { inventoryRouter } from './modules/inventory/inventory.routes.js';
 import { medicationRouter } from './modules/medications/medication.routes.js';
+import { purchaseRouter } from './modules/purchases/purchase.routes.js';
 import { supplierRouter } from './modules/suppliers/supplier.routes.js';
 import { errorHandler } from './shared/http/error-handler.js';
 import { notFound } from './shared/http/not-found.js';
@@ -36,6 +37,7 @@ export const createApp = () => {
   app.use('/api/v1/medications', medicationRouter);
   app.use('/api/v1/inventory', inventoryRouter);
   app.use('/api/v1/suppliers', supplierRouter);
+  app.use('/api/v1/purchases', purchaseRouter);
 
   // Los manejadores de cierre deben registrarse después de todas las rutas.
   app.use(notFound);

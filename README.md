@@ -20,7 +20,7 @@ Con el servidor iniciado, abra [http://localhost:3000/api-docs](http://localhost
 
 La especificación OpenAPI también está disponible como JSON en `GET /openapi.json`.
 
-Los módulos de medicamentos, inventario, compras, ventas y usuarios se agregarán en entregas posteriores.
+Los módulos se incorporan progresivamente y cada operación crítica se valida con pruebas automatizadas.
 
 ## API de medicamentos
 
@@ -55,6 +55,16 @@ Cada entrada o salida conserva el stock anterior y el nuevo stock. La actualizac
 | `GET`    | `/api/v1/suppliers/:id` | Consultar un proveedor      |
 | `PATCH`  | `/api/v1/suppliers/:id` | Actualizar un proveedor     |
 | `DELETE` | `/api/v1/suppliers/:id` | Desactivar un proveedor     |
+
+## API de compras
+
+| Método | Ruta                    | Función                     |
+| ------ | ----------------------- | --------------------------- |
+| `POST` | `/api/v1/purchases`     | Registrar compra e ingreso  |
+| `GET`  | `/api/v1/purchases`     | Listar compras              |
+| `GET`  | `/api/v1/purchases/:id` | Consultar factura y detalle |
+
+Registrar una compra crea o actualiza los lotes, incrementa sus existencias y genera los movimientos de entrada. La factura, sus detalles y el inventario se guardan en una única transacción.
 
 ## Requisitos
 

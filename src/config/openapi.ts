@@ -36,6 +36,10 @@ export const openApiDocument = {
     { name: 'Medicamentos', description: 'Catálogo de medicamentos' },
     { name: 'Inventario', description: 'Lotes y movimientos de existencias' },
     { name: 'Proveedores', description: 'Directorio de proveedores' },
+    {
+      name: 'Compras',
+      description: 'Facturas de compra e ingresos de inventario',
+    },
   ],
   paths: {
     '/api/v1/health': {
@@ -247,6 +251,44 @@ export const openApiDocument = {
         },
       },
     },
+    '/api/v1/purchases': {
+      post: {
+        tags: ['Compras'],
+        summary: 'Registrar una compra e ingresar existencias',
+        requestBody: jsonBody({ $ref: '#/components/schemas/CreatePurchase' }),
+        responses: {
+          '201': { description: 'Compra registrada' },
+          '400': { $ref: '#/components/responses/BadRequest' },
+          '404': { description: 'Proveedor o medicamento no encontrado' },
+          '409': { description: 'Factura duplicada o lote incompatible' },
+        },
+      },
+      get: {
+        tags: ['Compras'],
+        summary: 'Listar compras',
+        parameters: [
+          { $ref: '#/components/parameters/Page' },
+          { $ref: '#/components/parameters/Limit' },
+          {
+            name: 'supplierId',
+            in: 'query',
+            schema: { type: 'string', format: 'uuid' },
+          },
+        ],
+        responses: { '200': { description: 'Listado paginado de compras' } },
+      },
+    },
+    '/api/v1/purchases/{id}': {
+      get: {
+        tags: ['Compras'],
+        summary: 'Consultar una compra y su detalle',
+        parameters: [idParameter('id', 'Identificador de la compra')],
+        responses: {
+          '200': { description: 'Compra encontrada' },
+          '404': { $ref: '#/components/responses/NotFound' },
+        },
+      },
+    },
   },
   components: {
     parameters: {
@@ -363,6 +405,44 @@ export const openApiDocument = {
           email: { type: ['string', 'null'], format: 'email' },
           address: { type: ['string', 'null'] },
           isActive: { type: 'boolean' },
+        },
+      },
+      CreatePurchase: {
+        type: 'object',
+        required: ['supplierId', 'invoiceNumber', 'purchaseDate', 'items'],
+        properties: {
+          supplierId: { type: 'string', format: 'uuid' },
+          invoiceNumber: { type: 'string', example: 'FAC-2026-001' },
+          purchaseDate: {
+            type: 'string',
+            format: 'date',
+            example: '2026-10-07',
+          },
+          items: {
+            type: 'array',
+            minItems: 1,
+            items: {
+              type: 'object',
+              required: [
+                'medicationId',
+                'batchNumber',
+                'expirationDate',
+                'quantity',
+                'unitCost',
+              ],
+              properties: {
+                medicationId: { type: 'string', format: 'uuid' },
+                batchNumber: { type: 'string', example: 'LOTE-2026-001' },
+                expirationDate: {
+                  type: 'string',
+                  format: 'date',
+                  example: '2027-12-31',
+                },
+                quantity: { type: 'integer', minimum: 1, example: 100 },
+                unitCost: { type: 'number', example: 8.5 },
+              },
+            },
+          },
         },
       },
       Error: {
