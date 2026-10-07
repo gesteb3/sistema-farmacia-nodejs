@@ -20,7 +20,44 @@ model Medication {
   isActive             Boolean  @default(true) @map("is_active")
   createdAt            DateTime @default(now()) @map("created_at")
   updatedAt            DateTime @updatedAt @map("updated_at")
+  batches              InventoryBatch[]
 
   @@index([name])
   @@map("medications")
+}
+
+model InventoryBatch {
+  id             String              @id @default(uuid()) @db.Uuid
+  medicationId   String              @map("medication_id") @db.Uuid
+  batchNumber    String              @map("batch_number") @db.VarChar(50)
+  expirationDate DateTime            @map("expiration_date") @db.Date
+  stock          Int                 @default(0)
+  createdAt      DateTime            @default(now()) @map("created_at")
+  updatedAt      DateTime            @updatedAt @map("updated_at")
+  medication     Medication          @relation(fields: [medicationId], references: [id], onDelete: Restrict)
+  movements      InventoryMovement[]
+
+  @@unique([medicationId, batchNumber])
+  @@index([expirationDate])
+  @@map("inventory_batches")
+}
+
+model InventoryMovement {
+  id            String                @id @default(uuid()) @db.Uuid
+  batchId       String                @map("batch_id") @db.Uuid
+  type          InventoryMovementType
+  quantity      Int
+  previousStock Int                   @map("previous_stock")
+  newStock      Int                   @map("new_stock")
+  reason        String                @db.VarChar(200)
+  createdAt     DateTime              @default(now()) @map("created_at")
+  batch         InventoryBatch        @relation(fields: [batchId], references: [id], onDelete: Restrict)
+
+  @@index([batchId, createdAt])
+  @@map("inventory_movements")
+}
+
+enum InventoryMovementType {
+  ENTRY
+  EXIT
 }

@@ -28,6 +28,18 @@ Los módulos de medicamentos, inventario, compras, ventas y usuarios se agregar�
 
 La consulta de listado acepta `page`, `limit`, `search` e `includeInactive`. Los precios se envían como números y se devuelven como cadenas decimales para conservar su precisión.
 
+## API de inventario
+
+| Método | Ruta                                      | Función                             |
+| ------ | ----------------------------------------- | ----------------------------------- |
+| `POST` | `/api/v1/inventory/batches`               | Registrar lote y existencia inicial |
+| `GET`  | `/api/v1/inventory/batches`               | Listar lotes y filtrar su estado    |
+| `POST` | `/api/v1/inventory/batches/:id/entries`   | Registrar entrada de existencias    |
+| `POST` | `/api/v1/inventory/batches/:id/exits`     | Registrar salida de existencias     |
+| `GET`  | `/api/v1/inventory/batches/:id/movements` | Consultar historial del lote        |
+
+Cada entrada o salida conserva el stock anterior y el nuevo stock. La actualización del lote y la creación del movimiento se realizan en una misma transacción: ambas operaciones se completan o ninguna se guarda.
+
 ## Requisitos
 
 - Node.js 22 o superior
