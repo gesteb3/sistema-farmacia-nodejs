@@ -14,6 +14,12 @@ Esta primera entrega contiene la base técnica del sistema:
 - endpoint `GET /api/v1/health`;
 - pruebas automatizadas iniciales.
 
+## Documentación interactiva
+
+Con el servidor iniciado, abra [http://localhost:3000/api-docs](http://localhost:3000/api-docs). Swagger UI muestra todos los endpoints, sus parámetros y ejemplos; el botón **Try it out** permite ejecutar solicitudes desde el navegador.
+
+La especificación OpenAPI también está disponible como JSON en `GET /openapi.json`.
+
 Los módulos de medicamentos, inventario, compras, ventas y usuarios se agregarán en entregas posteriores.
 
 ## API de medicamentos

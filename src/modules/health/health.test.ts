@@ -28,3 +28,22 @@ describe('rutas inexistentes', () => {
     });
   });
 });
+
+describe('documentación de la API', () => {
+  it('redirige la página principal a Swagger UI', async () => {
+    const response = await request(createApp()).get('/');
+
+    expect(response.status).toBe(302);
+    expect(response.headers.location).toBe('/api-docs');
+  });
+
+  it('expone el documento OpenAPI', async () => {
+    const response = await request(createApp()).get('/openapi.json');
+
+    expect(response.status).toBe(200);
+    expect(response.body).toMatchObject({
+      openapi: '3.1.0',
+      info: { title: 'Sistema de Farmacia API' },
+    });
+  });
+});
