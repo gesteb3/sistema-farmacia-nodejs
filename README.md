@@ -20,6 +20,7 @@ Los módulos de medicamentos, inventario, compras, ventas y usuarios se agregar�
 
 - Node.js 22 o superior
 - npm 10 o superior
+- Docker Desktop
 
 ## Instalación
 
@@ -28,6 +29,13 @@ npm install
 ```
 
 Copie `.env.example` como `.env` y ajuste los valores si es necesario.
+
+Inicie PostgreSQL y aplique las migraciones:
+
+```bash
+docker compose up -d
+npm run db:migrate -- --name init
+```
 
 ## Comandos
 
@@ -38,6 +46,7 @@ npm start            # Ejecuta la versión compilada
 npm test             # Ejecuta las pruebas
 npm run lint         # Revisa la calidad del código
 npm run format:check # Verifica el formato
+npm run db:studio    # Abre el explorador visual de la base de datos
 ```
 
 ## Estructura inicial
@@ -52,3 +61,7 @@ src/
 ```
 
 Separar `app.ts` de `server.ts` permite probar la aplicación sin abrir un puerto real.
+
+## Persistencia
+
+PostgreSQL se ejecuta en Docker y Prisma mantiene el esquema y las migraciones. El primer modelo es `Medication`; contiene la información comercial del medicamento, pero no las existencias. El inventario se implementará como un módulo separado para registrar lotes, fechas de vencimiento y movimientos sin duplicar datos del catálogo.

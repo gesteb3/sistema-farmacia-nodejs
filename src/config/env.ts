@@ -6,6 +6,7 @@ const envSchema = z.object({
     .enum(['development', 'test', 'production'])
     .default('development'),
   PORT: z.coerce.number().int().positive().max(65_535).default(3000),
+  DATABASE_URL: z.url().startsWith('postgresql://'),
 });
 
 const result = envSchema.safeParse(process.env);

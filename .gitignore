@@ -7,4 +7,5 @@ coverage/
 Thumbs.db
 .idea/
 .vscode/
+src/generated/prisma/
 
