@@ -35,6 +35,7 @@ export const openApiDocument = {
     { name: 'Sistema', description: 'Estado general de la API' },
     { name: 'Medicamentos', description: 'Catálogo de medicamentos' },
     { name: 'Inventario', description: 'Lotes y movimientos de existencias' },
+    { name: 'Proveedores', description: 'Directorio de proveedores' },
   ],
   paths: {
     '/api/v1/health': {
@@ -190,6 +191,62 @@ export const openApiDocument = {
         },
       },
     },
+    '/api/v1/suppliers': {
+      post: {
+        tags: ['Proveedores'],
+        summary: 'Registrar un proveedor',
+        requestBody: jsonBody({ $ref: '#/components/schemas/CreateSupplier' }),
+        responses: {
+          '201': { description: 'Proveedor registrado' },
+          '400': { $ref: '#/components/responses/BadRequest' },
+          '409': { description: 'El NIT ya existe' },
+        },
+      },
+      get: {
+        tags: ['Proveedores'],
+        summary: 'Listar y buscar proveedores',
+        parameters: [
+          { $ref: '#/components/parameters/Page' },
+          { $ref: '#/components/parameters/Limit' },
+          { name: 'search', in: 'query', schema: { type: 'string' } },
+          {
+            name: 'includeInactive',
+            in: 'query',
+            schema: { type: 'boolean', default: false },
+          },
+        ],
+        responses: { '200': { description: 'Listado paginado' } },
+      },
+    },
+    '/api/v1/suppliers/{id}': {
+      parameters: [idParameter('id', 'Identificador del proveedor')],
+      get: {
+        tags: ['Proveedores'],
+        summary: 'Consultar un proveedor',
+        responses: {
+          '200': { description: 'Proveedor encontrado' },
+          '404': { $ref: '#/components/responses/NotFound' },
+        },
+      },
+      patch: {
+        tags: ['Proveedores'],
+        summary: 'Actualizar parcialmente un proveedor',
+        requestBody: jsonBody({ $ref: '#/components/schemas/UpdateSupplier' }),
+        responses: {
+          '200': { description: 'Proveedor actualizado' },
+          '400': { $ref: '#/components/responses/BadRequest' },
+          '404': { $ref: '#/components/responses/NotFound' },
+        },
+      },
+      delete: {
+        tags: ['Proveedores'],
+        summary: 'Desactivar un proveedor',
+        responses: {
+          '204': { description: 'Proveedor desactivado' },
+          '404': { $ref: '#/components/responses/NotFound' },
+        },
+      },
+    },
   },
   components: {
     parameters: {
@@ -277,6 +334,35 @@ export const openApiDocument = {
         properties: {
           quantity: { type: 'integer', minimum: 1, example: 10 },
           reason: { type: 'string', example: 'Reposición de inventario' },
+        },
+      },
+      CreateSupplier: {
+        type: 'object',
+        required: ['nit', 'name'],
+        properties: {
+          nit: { type: 'string', example: '1234567-8' },
+          name: { type: 'string', example: 'Distribuidora Farmacéutica, S.A.' },
+          contactName: { type: ['string', 'null'], example: 'Ana López' },
+          phone: { type: ['string', 'null'], example: '+502 2222-3333' },
+          email: {
+            type: ['string', 'null'],
+            format: 'email',
+            example: 'ventas@proveedor.com',
+          },
+          address: { type: ['string', 'null'], example: 'Ciudad de Guatemala' },
+        },
+      },
+      UpdateSupplier: {
+        type: 'object',
+        minProperties: 1,
+        properties: {
+          nit: { type: 'string' },
+          name: { type: 'string' },
+          contactName: { type: ['string', 'null'] },
+          phone: { type: ['string', 'null'] },
+          email: { type: ['string', 'null'], format: 'email' },
+          address: { type: ['string', 'null'] },
+          isActive: { type: 'boolean' },
         },
       },
       Error: {

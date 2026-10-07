@@ -46,6 +46,16 @@ La consulta de listado acepta `page`, `limit`, `search` e `includeInactive`. Los
 
 Cada entrada o salida conserva el stock anterior y el nuevo stock. La actualización del lote y la creación del movimiento se realizan en una misma transacción: ambas operaciones se completan o ninguna se guarda.
 
+## API de proveedores
+
+| Método   | Ruta                    | Función                     |
+| -------- | ----------------------- | --------------------------- |
+| `POST`   | `/api/v1/suppliers`     | Registrar un proveedor      |
+| `GET`    | `/api/v1/suppliers`     | Listar y buscar proveedores |
+| `GET`    | `/api/v1/suppliers/:id` | Consultar un proveedor      |
+| `PATCH`  | `/api/v1/suppliers/:id` | Actualizar un proveedor     |
+| `DELETE` | `/api/v1/suppliers/:id` | Desactivar un proveedor     |
+
 ## Requisitos
 
 - Node.js 22 o superior

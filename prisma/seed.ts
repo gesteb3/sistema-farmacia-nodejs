@@ -103,6 +103,33 @@ const medications = [
   },
 ];
 
+const suppliers = [
+  {
+    nit: '1000001-1',
+    name: 'Distribuidora Farmacéutica Central',
+    contactName: 'Ana López',
+    phone: '+502 2222-1001',
+    email: 'ventas@distribuidoracentral.example',
+    address: 'Ciudad de Guatemala',
+  },
+  {
+    nit: '1000002-2',
+    name: 'Suministros Médicos del Norte',
+    contactName: 'Carlos Méndez',
+    phone: '+502 2222-1002',
+    email: 'pedidos@suministrosnorte.example',
+    address: 'Cobán, Alta Verapaz',
+  },
+  {
+    nit: '1000003-3',
+    name: 'Productos de Salud Occidente',
+    contactName: 'María González',
+    phone: '+502 2222-1003',
+    email: 'contacto@saludoccidente.example',
+    address: 'Quetzaltenango',
+  },
+];
+
 const seed = async () => {
   for (const medication of medications) {
     await database.medication.upsert({
@@ -112,8 +139,16 @@ const seed = async () => {
     });
   }
 
+  for (const supplier of suppliers) {
+    await database.supplier.upsert({
+      where: { nit: supplier.nit },
+      update: supplier,
+      create: supplier,
+    });
+  }
+
   console.log(
-    `${medications.length} medicamentos de demostración disponibles.`,
+    `${medications.length} medicamentos y ${suppliers.length} proveedores de demostración disponibles.`,
   );
 };
 
