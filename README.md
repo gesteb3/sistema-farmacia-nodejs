@@ -16,6 +16,18 @@ Esta primera entrega contiene la base técnica del sistema:
 
 Los módulos de medicamentos, inventario, compras, ventas y usuarios se agregarán en entregas posteriores.
 
+## API de medicamentos
+
+| Método   | Ruta                      | Función                           |
+| -------- | ------------------------- | --------------------------------- |
+| `POST`   | `/api/v1/medications`     | Registrar un medicamento          |
+| `GET`    | `/api/v1/medications`     | Listar, buscar y paginar          |
+| `GET`    | `/api/v1/medications/:id` | Consultar por identificador       |
+| `PATCH`  | `/api/v1/medications/:id` | Actualizar campos específicos     |
+| `DELETE` | `/api/v1/medications/:id` | Desactivar sin borrar el registro |
+
+La consulta de listado acepta `page`, `limit`, `search` e `includeInactive`. Los precios se envían como números y se devuelven como cadenas decimales para conservar su precisión.
+
 ## Requisitos
 
 - Node.js 22 o superior
