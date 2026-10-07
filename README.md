@@ -65,6 +65,7 @@ Inicie PostgreSQL y aplique las migraciones:
 ```bash
 docker compose up -d
 npm run db:migrate -- --name init
+npm run db:seed
 ```
 
 ## Comandos
