@@ -30,11 +30,11 @@ describe('rutas inexistentes', () => {
 });
 
 describe('documentación de la API', () => {
-  it('redirige la página principal a Swagger UI', async () => {
+  it('redirige la página principal al panel web', async () => {
     const response = await request(createApp()).get('/');
 
     expect(response.status).toBe(302);
-    expect(response.headers.location).toBe('/api-docs');
+    expect(response.headers.location).toBe('/app/');
   });
 
   it('expone el documento OpenAPI', async () => {
@@ -45,5 +45,17 @@ describe('documentación de la API', () => {
       openapi: '3.1.0',
       info: { title: 'Sistema de Farmacia API' },
     });
+  });
+
+  it('sirve la interfaz web y sus recursos', async () => {
+    const [page, script] = await Promise.all([
+      request(createApp()).get('/app/'),
+      request(createApp()).get('/app/app.js'),
+    ]);
+
+    expect(page.status).toBe(200);
+    expect(page.text).toContain('FarmaControl');
+    expect(script.status).toBe(200);
+    expect(script.headers['content-type']).toContain('javascript');
   });
 });

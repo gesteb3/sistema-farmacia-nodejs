@@ -25,7 +25,8 @@ export const createApp = () => {
   app.use(cors());
   app.use(express.json({ limit: '1mb' }));
 
-  app.get('/', (_request, response) => response.redirect('/api-docs'));
+  app.get('/', (_request, response) => response.redirect('/app/'));
+  app.use('/app', express.static('public'));
   app.get('/openapi.json', (_request, response) =>
     response.status(200).json(openApiDocument),
   );

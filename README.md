@@ -20,6 +20,10 @@ Con el servidor iniciado, abra [http://localhost:3000/api-docs](http://localhost
 
 La especificación OpenAPI también está disponible como JSON en `GET /openapi.json`.
 
+## Interfaz web
+
+Abra [http://localhost:3000/app/](http://localhost:3000/app/) para utilizar el panel. Incluye login, indicadores, alertas y vistas conectadas a los módulos principales. La ruta raíz redirige al panel.
+
 Los módulos se incorporan progresivamente y cada operación crítica se valida con pruebas automatizadas.
 
 ## API de medicamentos

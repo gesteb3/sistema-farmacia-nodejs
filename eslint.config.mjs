@@ -7,9 +7,13 @@ export default tseslint.config(
     ignores: ['dist/', 'coverage/', 'eslint.config.mjs'],
   },
   eslint.configs.recommended,
-  ...tseslint.configs.recommendedTypeChecked,
+  ...tseslint.configs.recommendedTypeChecked.map((config) => ({
+    ...config,
+    files: ['**/*.ts'],
+  })),
   prettierConfig,
   {
+    files: ['**/*.ts'],
     languageOptions: {
       parserOptions: {
         projectService: true,
@@ -26,6 +30,18 @@ export default tseslint.config(
         'error',
         { checksVoidReturn: { arguments: false } },
       ],
+    },
+  },
+  {
+    files: ['public/**/*.js'],
+    languageOptions: {
+      globals: {
+        document: 'readonly',
+        fetch: 'readonly',
+        Intl: 'readonly',
+        localStorage: 'readonly',
+        setTimeout: 'readonly',
+      },
     },
   },
 );

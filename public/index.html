@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Panel administrativo del Sistema de Farmacia"
+    />
+    <title>FarmaControl</title>
+    <link rel="stylesheet" href="/app/styles.css" />
+    <script type="module" src="/app/app.js"></script>
+  </head>
+  <body>
+    <main id="login-view" class="login-layout">
+      <section class="brand-panel">
+        <div class="brand-mark">✚</div>
+        <p class="eyebrow">Gestión farmacéutica</p>
+        <h1>Control claro para una farmacia saludable.</h1>
+        <p>Inventario por lotes, compras, ventas y alertas en un solo lugar.</p>
+        <div class="feature-line"><span>01</span> Control de vencimientos</div>
+        <div class="feature-line">
+          <span>02</span> Trazabilidad de existencias
+        </div>
+        <div class="feature-line">
+          <span>03</span> Indicadores en tiempo real
+        </div>
+      </section>
+      <section class="login-panel">
+        <form id="login-form" class="login-card">
+          <p class="eyebrow">Bienvenido</p>
+          <h2>Iniciar sesión</h2>
+          <p class="muted">Ingrese sus credenciales para continuar.</p>
+          <label
+            >Correo electrónico<input
+              id="email"
+              type="email"
+              value="admin@farmacia.local"
+              required
+          /></label>
+          <label
+            >Contraseña<input
+              id="password"
+              type="password"
+              value="Farmacia2026!"
+              required
+          /></label>
+          <p id="login-error" class="error" hidden></p>
+          <button class="primary" type="submit">Ingresar al sistema</button>
+          <a class="docs-link" href="/api-docs/"
+            >Abrir documentación Swagger ↗</a
+          >
+        </form>
+      </section>
+    </main>
+
+    <div id="app-view" class="app-shell" hidden>
+      <aside class="sidebar">
+        <a class="logo" href="#dashboard"><span>✚</span> FarmaControl</a>
+        <nav id="navigation">
+          <button data-view="dashboard" class="active">
+            ▦ <span>Resumen</span>
+          </button>
+          <button data-view="medications">◇ <span>Medicamentos</span></button>
+          <button data-view="inventory">▤ <span>Inventario</span></button>
+          <button data-view="suppliers" data-admin>
+            ⌁ <span>Proveedores</span>
+          </button>
+          <button data-view="customers">♙ <span>Clientes</span></button>
+          <button data-view="purchases" data-admin>
+            ↓ <span>Compras</span>
+          </button>
+          <button data-view="sales">↑ <span>Ventas</span></button>
+        </nav>
+        <div class="sidebar-footer">
+          <div class="avatar" id="avatar">A</div>
+          <div>
+            <strong id="user-name">Usuario</strong
+            ><small id="user-role">Rol</small>
+          </div>
+          <button id="logout" title="Cerrar sesión">↪</button>
+        </div>
+      </aside>
+      <main class="content">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Sistema de Farmacia</p>
+            <h1 id="page-title">Resumen</h1>
+          </div>
+          <div class="top-actions">
+            <span id="today"></span
+            ><button id="refresh" class="secondary">Actualizar</button>
+          </div>
+        </header>
+        <section id="page-content" aria-live="polite"></section>
+      </main>
+    </div>
+    <div id="toast" class="toast" hidden></div>
+  </body>
+</html>
