@@ -86,6 +86,12 @@ Registrar una compra crea o actualiza los lotes, incrementa sus existencias y ge
 
 Las ventas consumen primero los lotes con vencimiento más cercano (FEFO), ignoran lotes vencidos y rechazan la operación completa cuando el stock es insuficiente.
 
+## Autenticación
+
+La API utiliza tokens JWT con duración de ocho horas. El usuario inicial de demostración es `admin@farmacia.local` y su contraseña es `Farmacia2026!`; estas credenciales deben cambiarse fuera del entorno académico.
+
+En Swagger, ejecute `POST /api/v1/auth/login`, copie el token y utilice el botón **Authorize** para acceder a los endpoints protegidos.
+
 ## Requisitos
 
 - Node.js 22 o superior

@@ -31,6 +31,7 @@ export const openApiDocument = {
       'API REST para administrar medicamentos e inventario por lotes. Use “Try it out” para ejecutar solicitudes.',
   },
   servers: [{ url: 'http://localhost:3000', description: 'Servidor local' }],
+  security: [{ bearerAuth: [] }],
   tags: [
     { name: 'Sistema', description: 'Estado general de la API' },
     { name: 'Medicamentos', description: 'Catálogo de medicamentos' },
@@ -42,10 +43,12 @@ export const openApiDocument = {
     },
     { name: 'Clientes', description: 'Directorio de clientes' },
     { name: 'Ventas', description: 'Facturación y salidas de inventario' },
+    { name: 'Autenticación', description: 'Sesión y usuarios del sistema' },
   ],
   paths: {
     '/api/v1/health': {
       get: {
+        security: [],
         tags: ['Sistema'],
         summary: 'Verificar que la API está activa',
         responses: {
@@ -57,6 +60,44 @@ export const openApiDocument = {
               },
             },
           },
+        },
+      },
+    },
+    '/api/v1/auth/login': {
+      post: {
+        security: [],
+        tags: ['Autenticación'],
+        summary: 'Iniciar sesión',
+        requestBody: jsonBody({ $ref: '#/components/schemas/Login' }),
+        responses: {
+          '200': { description: 'Token y usuario' },
+          '401': { description: 'Credenciales incorrectas' },
+        },
+      },
+    },
+    '/api/v1/auth/me': {
+      get: {
+        tags: ['Autenticación'],
+        summary: 'Consultar usuario autenticado',
+        responses: {
+          '200': { description: 'Perfil actual' },
+          '401': { description: 'Sesión inválida' },
+        },
+      },
+    },
+    '/api/v1/users': {
+      get: {
+        tags: ['Autenticación'],
+        summary: 'Listar usuarios como administrador',
+        responses: { '200': { description: 'Usuarios' } },
+      },
+      post: {
+        tags: ['Autenticación'],
+        summary: 'Crear usuario como administrador',
+        requestBody: jsonBody({ $ref: '#/components/schemas/CreateUser' }),
+        responses: {
+          '201': { description: 'Usuario creado' },
+          '403': { description: 'Permiso insuficiente' },
         },
       },
     },
@@ -370,6 +411,9 @@ export const openApiDocument = {
     },
   },
   components: {
+    securitySchemes: {
+      bearerAuth: { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
+    },
     parameters: {
       Page: {
         name: 'page',
@@ -564,6 +608,40 @@ export const openApiDocument = {
                 quantity: { type: 'integer', minimum: 1, example: 2 },
               },
             },
+          },
+        },
+      },
+      Login: {
+        type: 'object',
+        required: ['email', 'password'],
+        properties: {
+          email: {
+            type: 'string',
+            format: 'email',
+            example: 'admin@farmacia.local',
+          },
+          password: {
+            type: 'string',
+            format: 'password',
+            example: 'Farmacia2026!',
+          },
+        },
+      },
+      CreateUser: {
+        type: 'object',
+        required: ['name', 'email', 'password'],
+        properties: {
+          name: { type: 'string', example: 'Cajero Principal' },
+          email: {
+            type: 'string',
+            format: 'email',
+            example: 'cajero@farmacia.local',
+          },
+          password: { type: 'string', format: 'password', minLength: 8 },
+          role: {
+            type: 'string',
+            enum: ['ADMIN', 'CASHIER'],
+            default: 'CASHIER',
           },
         },
       },

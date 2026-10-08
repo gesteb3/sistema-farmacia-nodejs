@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { authorize } from '../auth/auth.middleware.js';
 
 import {
   createMedication,
@@ -10,9 +11,12 @@ import {
 
 export const medicationRouter = Router();
 
-medicationRouter.route('/').post(createMedication).get(listMedications);
+medicationRouter
+  .route('/')
+  .post(authorize('ADMIN'), createMedication)
+  .get(listMedications);
 medicationRouter
   .route('/:id')
   .get(getMedication)
-  .patch(updateMedication)
-  .delete(deleteMedication);
+  .patch(authorize('ADMIN'), updateMedication)
+  .delete(authorize('ADMIN'), deleteMedication);

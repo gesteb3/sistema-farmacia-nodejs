@@ -1,4 +1,5 @@
 import { database } from '../src/config/database.js';
+import { hash } from 'bcryptjs';
 
 const medications = [
   {
@@ -147,8 +148,19 @@ const seed = async () => {
     });
   }
 
+  await database.user.upsert({
+    where: { email: 'admin@farmacia.local' },
+    update: { name: 'Administrador', role: 'ADMIN', isActive: true },
+    create: {
+      name: 'Administrador',
+      email: 'admin@farmacia.local',
+      passwordHash: await hash('Farmacia2026!', 12),
+      role: 'ADMIN',
+    },
+  });
+
   console.log(
-    `${medications.length} medicamentos y ${suppliers.length} proveedores de demostración disponibles.`,
+    `${medications.length} medicamentos, ${suppliers.length} proveedores y el usuario administrador disponibles.`,
   );
 };
 
