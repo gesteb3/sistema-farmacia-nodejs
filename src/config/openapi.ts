@@ -41,6 +41,7 @@ export const openApiDocument = {
       description: 'Facturas de compra e ingresos de inventario',
     },
     { name: 'Clientes', description: 'Directorio de clientes' },
+    { name: 'Ventas', description: 'Facturación y salidas de inventario' },
   ],
   paths: {
     '/api/v1/health': {
@@ -330,6 +331,43 @@ export const openApiDocument = {
         responses: { '204': { description: 'Cliente desactivado' } },
       },
     },
+    '/api/v1/sales': {
+      post: {
+        tags: ['Ventas'],
+        summary: 'Registrar una venta y descontar existencias',
+        requestBody: jsonBody({ $ref: '#/components/schemas/CreateSale' }),
+        responses: {
+          '201': { description: 'Venta registrada' },
+          '404': { description: 'Cliente o medicamento no encontrado' },
+          '409': { description: 'Factura duplicada o stock insuficiente' },
+        },
+      },
+      get: {
+        tags: ['Ventas'],
+        summary: 'Listar ventas',
+        parameters: [
+          { $ref: '#/components/parameters/Page' },
+          { $ref: '#/components/parameters/Limit' },
+          {
+            name: 'customerId',
+            in: 'query',
+            schema: { type: 'string', format: 'uuid' },
+          },
+        ],
+        responses: { '200': { description: 'Listado paginado de ventas' } },
+      },
+    },
+    '/api/v1/sales/{id}': {
+      get: {
+        tags: ['Ventas'],
+        summary: 'Consultar factura y detalle de venta',
+        parameters: [idParameter('id', 'Identificador de la venta')],
+        responses: {
+          '200': { description: 'Venta encontrada' },
+          '404': { $ref: '#/components/responses/NotFound' },
+        },
+      },
+    },
   },
   components: {
     parameters: {
@@ -507,6 +545,26 @@ export const openApiDocument = {
           email: { type: ['string', 'null'], format: 'email' },
           address: { type: ['string', 'null'] },
           isActive: { type: 'boolean' },
+        },
+      },
+      CreateSale: {
+        type: 'object',
+        required: ['invoiceNumber', 'items'],
+        properties: {
+          customerId: { type: ['string', 'null'], format: 'uuid' },
+          invoiceNumber: { type: 'string', example: 'V-2026-001' },
+          items: {
+            type: 'array',
+            minItems: 1,
+            items: {
+              type: 'object',
+              required: ['medicationId', 'quantity'],
+              properties: {
+                medicationId: { type: 'string', format: 'uuid' },
+                quantity: { type: 'integer', minimum: 1, example: 2 },
+              },
+            },
+          },
         },
       },
       Error: {

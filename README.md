@@ -76,6 +76,16 @@ Registrar una compra crea o actualiza los lotes, incrementa sus existencias y ge
 | `PATCH`  | `/api/v1/customers/:id` | Actualizar un cliente    |
 | `DELETE` | `/api/v1/customers/:id` | Desactivar un cliente    |
 
+## API de ventas
+
+| Método | Ruta                | Función                           |
+| ------ | ------------------- | --------------------------------- |
+| `POST` | `/api/v1/sales`     | Registrar venta y descontar stock |
+| `GET`  | `/api/v1/sales`     | Listar ventas                     |
+| `GET`  | `/api/v1/sales/:id` | Consultar factura y detalle       |
+
+Las ventas consumen primero los lotes con vencimiento más cercano (FEFO), ignoran lotes vencidos y rechazan la operación completa cuando el stock es insuficiente.
+
 ## Requisitos
 
 - Node.js 22 o superior

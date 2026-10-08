@@ -9,6 +9,7 @@ import { healthRouter } from './modules/health/health.routes.js';
 import { inventoryRouter } from './modules/inventory/inventory.routes.js';
 import { medicationRouter } from './modules/medications/medication.routes.js';
 import { purchaseRouter } from './modules/purchases/purchase.routes.js';
+import { saleRouter } from './modules/sales/sale.routes.js';
 import { supplierRouter } from './modules/suppliers/supplier.routes.js';
 import { errorHandler } from './shared/http/error-handler.js';
 import { notFound } from './shared/http/not-found.js';
@@ -40,6 +41,7 @@ export const createApp = () => {
   app.use('/api/v1/suppliers', supplierRouter);
   app.use('/api/v1/purchases', purchaseRouter);
   app.use('/api/v1/customers', customerRouter);
+  app.use('/api/v1/sales', saleRouter);
 
   // Los manejadores de cierre deben registrarse después de todas las rutas.
   app.use(notFound);
