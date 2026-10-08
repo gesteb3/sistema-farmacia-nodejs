@@ -92,6 +92,10 @@ La API utiliza tokens JWT con duración de ocho horas. El usuario inicial de dem
 
 En Swagger, ejecute `POST /api/v1/auth/login`, copie el token y utilice el botón **Authorize** para acceder a los endpoints protegidos.
 
+## Reportes
+
+`GET /api/v1/reports/dashboard` entrega los indicadores operativos del panel: ventas del día y del mes, existencias totales, medicamentos con stock bajo y lotes que vencen durante los próximos 30 días. Sólo los administradores pueden consultarlo.
+
 ## Requisitos
 
 - Node.js 22 o superior

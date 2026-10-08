@@ -44,6 +44,7 @@ export const openApiDocument = {
     { name: 'Clientes', description: 'Directorio de clientes' },
     { name: 'Ventas', description: 'Facturación y salidas de inventario' },
     { name: 'Autenticación', description: 'Sesión y usuarios del sistema' },
+    { name: 'Reportes', description: 'Indicadores operativos' },
   ],
   paths: {
     '/api/v1/health': {
@@ -98,6 +99,18 @@ export const openApiDocument = {
         responses: {
           '201': { description: 'Usuario creado' },
           '403': { description: 'Permiso insuficiente' },
+        },
+      },
+    },
+    '/api/v1/reports/dashboard': {
+      get: {
+        tags: ['Reportes'],
+        summary: 'Consultar indicadores y alertas del panel',
+        responses: {
+          '200': {
+            description: 'Resumen de ventas, existencias y vencimientos',
+          },
+          '403': { description: 'Sólo administradores' },
         },
       },
     },
