@@ -2,6 +2,10 @@
 
 API REST desarrollada con Node.js, Express y TypeScript para administrar las operaciones de una farmacia. El proyecto se construirá por módulos para mantener cada responsabilidad aislada y facilitar las pruebas y el mantenimiento.
 
+## Inicio rápido en Windows
+
+Abra Docker Desktop y haga doble clic en `INICIAR-FARMACIA.cmd`. El iniciador prepara la base de datos, carga los datos de demostración, inicia el servidor y abre el panel en el navegador. Mantenga abierta la ventana del servidor y use `Ctrl+C` para detenerlo.
+
 ## Estado actual
 
 Esta primera entrega contiene la base técnica del sistema:
