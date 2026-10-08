@@ -38,8 +38,10 @@ export default tseslint.config(
       globals: {
         document: 'readonly',
         fetch: 'readonly',
+        FormData: 'readonly',
         Intl: 'readonly',
         localStorage: 'readonly',
+        confirm: 'readonly',
         setTimeout: 'readonly',
       },
     },

@@ -409,6 +409,105 @@ td strong {
   box-shadow: 0 12px 40px #0003;
   z-index: 5;
 }
+.toast-error {
+  background: var(--danger);
+}
+.login-help {
+  margin: 18px 0 0;
+  color: var(--muted);
+  text-align: center;
+  font-size: 13px;
+}
+.form-card {
+  margin-bottom: 22px;
+  padding: 0;
+  overflow: hidden;
+}
+.form-card summary {
+  padding: 18px 22px;
+  cursor: pointer;
+  color: var(--green-dark);
+  font-weight: 800;
+  list-style-position: inside;
+}
+.form-card[open] summary {
+  border-bottom: 1px solid var(--line);
+}
+.form-card form {
+  padding: 0 22px 22px;
+}
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0 16px;
+}
+.form-grid .full {
+  grid-column: 1 / -1;
+}
+.form-grid h4 {
+  margin: 24px 0 0;
+}
+.check {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-self: end;
+  padding-bottom: 12px;
+}
+.check input {
+  width: auto;
+}
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+.primary.compact {
+  width: auto;
+  min-width: 180px;
+}
+.line-item {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1.25fr 0.7fr 0.9fr 40px;
+  gap: 10px;
+  align-items: end;
+  padding: 12px 0;
+  border-bottom: 1px dashed var(--line);
+}
+.line-item.sale-line {
+  grid-template-columns: 2fr 0.7fr 40px;
+}
+.line-item label {
+  margin-top: 0;
+}
+.remove-line {
+  height: 42px;
+  border: 0;
+  border-radius: 8px;
+  background: #fee5e5;
+  color: var(--danger);
+  font-size: 22px;
+}
+.add-line {
+  margin-top: 12px;
+}
+.table-action {
+  border: 0;
+  border-radius: 7px;
+  padding: 7px 9px;
+  margin: 2px 5px 2px 0;
+  background: var(--mint);
+  color: var(--green-dark);
+  font-size: 11px;
+  font-weight: 800;
+}
+.table-action.danger {
+  background: #fee5e5;
+  color: var(--danger);
+}
+button:disabled {
+  cursor: wait;
+  opacity: 0.6;
+}
 @media (max-width: 900px) {
   .login-layout {
     grid-template-columns: 1fr;
@@ -438,6 +537,13 @@ td strong {
   .grid-2 {
     grid-template-columns: 1fr;
   }
+  .form-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .line-item,
+  .line-item.sale-line {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 @media (max-width: 600px) {
   .content {
@@ -454,5 +560,10 @@ td strong {
   }
   .metric strong {
     font-size: 26px;
+  }
+  .form-grid,
+  .line-item,
+  .line-item.sale-line {
+    grid-template-columns: 1fr;
   }
 }
