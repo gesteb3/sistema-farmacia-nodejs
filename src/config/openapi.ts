@@ -40,6 +40,7 @@ export const openApiDocument = {
       name: 'Compras',
       description: 'Facturas de compra e ingresos de inventario',
     },
+    { name: 'Clientes', description: 'Directorio de clientes' },
   ],
   paths: {
     '/api/v1/health': {
@@ -289,6 +290,46 @@ export const openApiDocument = {
         },
       },
     },
+    '/api/v1/customers': {
+      post: {
+        tags: ['Clientes'],
+        summary: 'Registrar un cliente',
+        requestBody: jsonBody({ $ref: '#/components/schemas/CreateCustomer' }),
+        responses: {
+          '201': { description: 'Cliente registrado' },
+          '409': { description: 'NIT duplicado' },
+        },
+      },
+      get: {
+        tags: ['Clientes'],
+        summary: 'Listar y buscar clientes',
+        parameters: [
+          { $ref: '#/components/parameters/Page' },
+          { $ref: '#/components/parameters/Limit' },
+          { name: 'search', in: 'query', schema: { type: 'string' } },
+        ],
+        responses: { '200': { description: 'Listado paginado' } },
+      },
+    },
+    '/api/v1/customers/{id}': {
+      parameters: [idParameter('id', 'Identificador del cliente')],
+      get: {
+        tags: ['Clientes'],
+        summary: 'Consultar un cliente',
+        responses: { '200': { description: 'Cliente encontrado' } },
+      },
+      patch: {
+        tags: ['Clientes'],
+        summary: 'Actualizar un cliente',
+        requestBody: jsonBody({ $ref: '#/components/schemas/UpdateCustomer' }),
+        responses: { '200': { description: 'Cliente actualizado' } },
+      },
+      delete: {
+        tags: ['Clientes'],
+        summary: 'Desactivar un cliente',
+        responses: { '204': { description: 'Cliente desactivado' } },
+      },
+    },
   },
   components: {
     parameters: {
@@ -443,6 +484,29 @@ export const openApiDocument = {
               },
             },
           },
+        },
+      },
+      CreateCustomer: {
+        type: 'object',
+        required: ['name'],
+        properties: {
+          nit: { type: ['string', 'null'], example: 'CF-123456' },
+          name: { type: 'string', example: 'Juan Pérez' },
+          phone: { type: ['string', 'null'], example: '+502 5555-1234' },
+          email: { type: ['string', 'null'], format: 'email' },
+          address: { type: ['string', 'null'] },
+        },
+      },
+      UpdateCustomer: {
+        type: 'object',
+        minProperties: 1,
+        properties: {
+          nit: { type: ['string', 'null'] },
+          name: { type: 'string' },
+          phone: { type: ['string', 'null'] },
+          email: { type: ['string', 'null'], format: 'email' },
+          address: { type: ['string', 'null'] },
+          isActive: { type: 'boolean' },
         },
       },
       Error: {

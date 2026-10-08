@@ -4,6 +4,7 @@ import helmet from 'helmet';
 import swaggerUi from 'swagger-ui-express';
 
 import { openApiDocument } from './config/openapi.js';
+import { customerRouter } from './modules/customers/customer.routes.js';
 import { healthRouter } from './modules/health/health.routes.js';
 import { inventoryRouter } from './modules/inventory/inventory.routes.js';
 import { medicationRouter } from './modules/medications/medication.routes.js';
@@ -38,6 +39,7 @@ export const createApp = () => {
   app.use('/api/v1/inventory', inventoryRouter);
   app.use('/api/v1/suppliers', supplierRouter);
   app.use('/api/v1/purchases', purchaseRouter);
+  app.use('/api/v1/customers', customerRouter);
 
   // Los manejadores de cierre deben registrarse después de todas las rutas.
   app.use(notFound);

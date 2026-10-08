@@ -111,3 +111,18 @@ model PurchaseItem {
   @@index([purchaseId])
   @@map("purchase_items")
 }
+
+model Customer {
+  id        String   @id @default(uuid()) @db.Uuid
+  nit       String?  @unique @db.VarChar(20)
+  name      String   @db.VarChar(120)
+  phone     String?  @db.VarChar(25)
+  email     String?  @db.VarChar(150)
+  address   String?  @db.VarChar(250)
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([name])
+  @@map("customers")
+}

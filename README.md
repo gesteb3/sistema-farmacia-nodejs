@@ -66,6 +66,16 @@ Cada entrada o salida conserva el stock anterior y el nuevo stock. La actualizac
 
 Registrar una compra crea o actualiza los lotes, incrementa sus existencias y genera los movimientos de entrada. La factura, sus detalles y el inventario se guardan en una única transacción.
 
+## API de clientes
+
+| Método   | Ruta                    | Función                  |
+| -------- | ----------------------- | ------------------------ |
+| `POST`   | `/api/v1/customers`     | Registrar un cliente     |
+| `GET`    | `/api/v1/customers`     | Listar y buscar clientes |
+| `GET`    | `/api/v1/customers/:id` | Consultar un cliente     |
+| `PATCH`  | `/api/v1/customers/:id` | Actualizar un cliente    |
+| `DELETE` | `/api/v1/customers/:id` | Desactivar un cliente    |
+
 ## Requisitos
 
 - Node.js 22 o superior
